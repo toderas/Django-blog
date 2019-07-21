@@ -12,11 +12,11 @@ def get_posts(request):
     """ Create a view that will return a list of posts that were published prior to 'now'
         and render them to the 'blogposts.html' template"""
         
-    posts = Post.objects.filter(published_date__lte=timezone.now
-    ()).order_by('-published_date')
-    return render(request, "blogposts.html", {'posts':posts})
+    posts = Post.objects.filter(published_date__lte=timezone.now()
+        ).order_by('-published_date')
+    return render(request, "blogposts.html", {'posts': posts})
         
-def post_detail(request):
+def post_detail(request, pk):
     """ Create a view that returns a single post view based on the post ID(pk)
         and render it to the 'postdetail.html' template.
         Or return a 404 error if the post is not found """
@@ -25,7 +25,7 @@ def post_detail(request):
     post.save()
     return render(request, "postdetail.html", {'post': post})
         
-def create_or_edit_post(request):
+def create_or_edit_post(request, pk=None):
     """ Create a view that allows us to create or edit a post depending
         if the post Id is null or not """
     post = get_object_or_404(Post, pk=pk) if pk else None
